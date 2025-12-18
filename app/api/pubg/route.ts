@@ -24,12 +24,13 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    console.log('Starting GET request to /api/pubg');
-    
-    // Test database connection first
-    await prisma.$connect();
-    console.log('Database connected successfully');
-    
+    // If the database URL is not set (for example during build), return an empty list
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL is not set. Returning empty entries for /api/pubg');
+      return NextResponse.json([], { status: 200 });
+    }
+
+    // Don't explicitly call $connect / $disconnect here - Prisma will handle connection pooling.
     const entries = await prisma.pubg.findMany({
       select: {
         ids: true,
@@ -37,35 +38,25 @@ export async function GET() {
         naam: true,
         rate: true,
         message: true
-      }
+      },
+      orderBy: { ids: 'desc' }
     });
-    
-    console.log(`Found ${entries.length} entries`);
-    
-    // Transform the data to match the expected interface
+
     const transformedEntries = entries.map(entry => ({
       id: entry.ids,
       gamesid: entry.gamesid,
       naam: entry.naam,
       rate: entry.rate,
       message: entry.message,
-      createdAt: new Date().toISOString() // Use current date since schema doesn't have createdAt
+      createdAt: new Date().toISOString()
     }));
-    
-    console.log('Data transformed successfully');
+
     return NextResponse.json(transformedEntries, { status: 200 });
   } catch (error) {
-    console.error('Database error:', error);
+    console.error('GET error:', error);
     return NextResponse.json(
-      { error: "Failed to fetch entries", details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: "Failed to fetch entries", details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
-  } finally {
-    try {
-      await prisma.$disconnect();
-      console.log('Database disconnected successfully');
-    } catch (disconnectError) {
-      console.error('Error disconnecting from database:', disconnectError);
-    }
   }
 } 

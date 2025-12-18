@@ -17,16 +17,10 @@ export async function OPTIONS() {
 // GET: Fetch all users
 export async function GET() {
   try {
-    console.log('GET request received');
-    
-    try {
-      await prisma.$connect();
-    } catch (dbError) {
-      console.error('Database connection error:', dbError);
-      return corsResponse(NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      ));
+    // If DB isn't configured (e.g. during build), return an empty list so build doesn't fail
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL not set - returning empty users list');
+      return corsResponse(NextResponse.json([]));
     }
 
     const users = await prisma.project.findMany({
@@ -35,8 +29,6 @@ export async function GET() {
       }
     });
 
-    console.log('Fetched users:', users);
-    
     if (!users) {
       return corsResponse(NextResponse.json(
         { error: "No users found" },
@@ -51,8 +43,6 @@ export async function GET() {
       { error: "Failed to fetch users" },
       { status: 500 }
     ));
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
