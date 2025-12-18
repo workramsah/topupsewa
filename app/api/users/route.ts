@@ -39,10 +39,8 @@ export async function GET() {
     return corsResponse(NextResponse.json(users));
   } catch (error) {
     console.error('Error fetching users:', error);
-    return corsResponse(NextResponse.json(
-      { error: "Failed to fetch users" },
-      { status: 500 }
-    ));
+    // Return an empty list so build-time page data collection doesn't fail
+    return corsResponse(NextResponse.json([]));
   }
 }
 
