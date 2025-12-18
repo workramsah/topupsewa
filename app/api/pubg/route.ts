@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL not set - skipping DB write for POST /api/pubg');
+      // Return 201 for UX but don't attempt DB write during build or in unconfigured env
+      return NextResponse.json({ message: 'DB not configured' }, { status: 201 });
+    }
+
+    const { prisma } = await import('@/lib/prisma');
     const entry = await prisma.pubg.create({
       data: {
         gamesid: body.gamesid,
@@ -30,7 +37,9 @@ export async function GET() {
       return NextResponse.json([], { status: 200 });
     }
 
-    // Don't explicitly call $connect / $disconnect here - Prisma will handle connection pooling.
+    // Import Prisma dynamically at runtime to avoid issues during build
+    const { prisma } = await import('@/lib/prisma');
+
     const entries = await prisma.pubg.findMany({
       select: {
         ids: true,

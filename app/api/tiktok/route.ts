@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const { prisma } = await import('@/lib/prisma');
     const entry = await prisma.tiktok.create({
       data: {
         videoslink: body.videoslink,
@@ -24,6 +24,13 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    if (!process.env.DATABASE_URL) {
+      console.warn('DATABASE_URL not set - returning empty list for /api/tiktok');
+      return NextResponse.json([], { status: 200 });
+    }
+
+    const { prisma } = await import('@/lib/prisma');
+
     const entries = await prisma.tiktok.findMany({
       orderBy: { id: 'desc' },
     });

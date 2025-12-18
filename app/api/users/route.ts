@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 
 // Helper function to handle CORS
 function corsResponse(response: NextResponse) {
@@ -22,6 +21,8 @@ export async function GET() {
       console.warn('DATABASE_URL not set - returning empty users list');
       return corsResponse(NextResponse.json([]));
     }
+
+    const { prisma } = await import('@/lib/prisma');
 
     const users = await prisma.project.findMany({
       orderBy: {
@@ -79,6 +80,7 @@ export async function POST(request: NextRequest) {
     // Note: Price is already a string, no extraction needed
 
     console.log('Creating order with data:', body);
+    const { prisma } = await import('@/lib/prisma');
     const user = await prisma.project.create({
       data: {
         price: body.price,
