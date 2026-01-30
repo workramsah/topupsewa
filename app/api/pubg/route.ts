@@ -51,7 +51,7 @@ export async function GET() {
       orderBy: { ids: 'desc' }
     });
 
-    const transformedEntries = entries.map(entry => ({
+    const transformedEntries = entries.map((entry: any) => ({
       id: entry.ids,
       gamesid: entry.gamesid,
       naam: entry.naam,
