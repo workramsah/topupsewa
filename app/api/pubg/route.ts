@@ -51,7 +51,16 @@ export async function GET() {
       orderBy: { ids: 'desc' }
     });
 
-    const transformedEntries = entries.map((entry: any) => ({
+    // Define the shape of the entry from the database
+    interface PubgEntry {
+      ids: number;
+      gamesid: string;
+      naam: string;
+      rate: string;
+      message: string;
+    }
+
+    const transformedEntries = entries.map((entry: PubgEntry) => ({
       id: entry.ids,
       gamesid: entry.gamesid,
       naam: entry.naam,
