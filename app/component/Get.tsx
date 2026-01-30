@@ -20,8 +20,9 @@ export default function Get() {
         setLoading(true);
         setError(null);
         
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-        console.log('Fetching from:', baseUrl);
+        // Use relative path which works automatically for both local and Vercel
+        const baseUrl = '';
+        console.log('Fetching from:', baseUrl || 'relative path');
 
         // Fetch Project users
         const usersResponse = await fetch(`${baseUrl}/api/users`, {
