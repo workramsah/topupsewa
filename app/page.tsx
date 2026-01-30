@@ -45,7 +45,7 @@ export default async function page() {
           <div className="flex justify-center flex-wrap ml-2 gap-4">
             <ProductCard name="FreeFire" price="Rs 95 -- Rs 1000" img="freefire.jpg" Url="/freefire-diamond-topup"/>
             <ProductCard name="PUBG" price="Rs 99-1000+" img="pugb-comp.jpg" Url="/topup/pubg"/>
-            <ProductCard name="Call Of Duty" price="Comming Soon" img="callofduty (1).jpg" Url="/topup/callofduty"/>
+            <ProductCard name="Call Of Duty" price="Comming Fast" img="callofduty (1).jpg" Url="/topup/callofduty"/>
             <ProductCard name="Mobile Legends" price="Comming Soon" img="mobilelegends1.jpg" Url="topup/mobilelegends"/>
           </div>
 
