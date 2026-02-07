@@ -49,7 +49,7 @@ export default async function page() {
             <ProductCard name="Mobile Legends" price="Comming Soon" img="mobilelegends1.jpg" Url="topup/mobilelegends"/>
           </div>
 
-          <h1 className="learn text-center p-2 bg-red-50 dark:bg-red-900/20 mt-2 mb-2 text-gray-900 dark:text-white">Product</h1>
+          <h1 className="learn text-center p-2 bg-red-50 dark:bg-red-900/20 mt-2 mb-2 text-gray-900 dark:text-white">Product Comming Soon</h1>
           <div className="flex justify-center flex-wrap ml-2 gap-4">
             <ProductCard name="Github Student" price=" Comming Soon" img="pugb-comp.jpg" Url="/product/githubstudentpack" />
             <ProductCard name="Cloud Storage" price="Comming Soon" img="onedrive.png" Url="/product/cloudstorage"/>
