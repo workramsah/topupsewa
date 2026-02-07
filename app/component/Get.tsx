@@ -1,124 +1,87 @@
-'use client';
+"use client";
+
 import React, { useEffect, useState } from "react";
 
-interface User {
+interface Order {
   id: number;
   names: string;
   playerid: string;
   price: string;
-  source?: string; // Add a source field to distinguish
+  whatsapp: string;
+  source?: string;
 }
 
 export default function Get() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchOrders = async () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Use relative path which works automatically for both local and Vercel
-        const baseUrl = '';
-        console.log('Fetching from:', baseUrl || 'relative path');
+        const baseUrl = "";
 
-        // Fetch Project users
-        const usersResponse = await fetch(`${baseUrl}/api/users`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!usersResponse.ok) {
-          const errorData = await usersResponse.json();
-          throw new Error(errorData.error || `HTTP error! status: ${usersResponse.status}`);
-        }
-        const usersData = await usersResponse.json();
-        const projectUsers: User[] = usersData.map((user: unknown) => {
-          if (user && typeof user === 'object' && 'id' in user && 'names' in user && 'playerid' in user && 'price' in user) {
-            return {
-              id: Number(user.id),
-              names: String(user.names),
-              playerid: String(user.playerid),
-              price: String(user.price),
-              source: 'FreeFire',
-            };
-          }
-          throw new Error('Invalid user data structure');
-        });
+        const [usersRes, pubgRes, tiktokRes] = await Promise.all([
+          fetch(`${baseUrl}/api/users`, { headers: { "Content-Type": "application/json" } }),
+          fetch(`${baseUrl}/api/pubg`, { headers: { "Content-Type": "application/json" } }),
+          fetch(`${baseUrl}/api/tiktok`, { headers: { "Content-Type": "application/json" } }),
+        ]);
 
-        // Fetch Pubg users
-        const pubgResponse = await fetch(`${baseUrl}/api/pubg`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!pubgResponse.ok) {
-          const errorData = await pubgResponse.json();
-          throw new Error(errorData.error || `HTTP error! status: ${pubgResponse.status}`);
-        }
-        const pubgData = await pubgResponse.json();
-        const pubgUsers: User[] = pubgData.map((entry: unknown) => {
-          if (entry && typeof entry === 'object' && 'id' in entry && 'naam' in entry && 'gamesid' in entry && 'rate' in entry) {
-            return {
-              id: Number(entry.id),
-              names: String(entry.naam),
-              playerid: String(entry.gamesid),
-              price: String(entry.rate),
-              source: 'Pubg',
-            };
-          }
-          throw new Error('Invalid pubg entry data structure');
-        });
+        const projectOrders: Order[] = usersRes.ok
+          ? (await usersRes.json()).map((u: Record<string, unknown>) => ({
+              id: Number(u.id),
+              names: String(u.names),
+              playerid: String(u.playerid),
+              price: String(u.price),
+              whatsapp: String(u.whatsapp),
+              source: "FreeFire",
+            }))
+          : [];
 
-        // Fetch Tiktok
-        const tiktokResponse = await fetch(`${baseUrl}/api/tiktok`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!tiktokResponse.ok) {
-          const errorData = await tiktokResponse.json();
-          throw new Error(errorData.error || `HTTP error! status: ${tiktokResponse.status}`);
-        }
-        const tiktokData = await tiktokResponse.json();
-        const tiktoktUsers: User[] = tiktokData.map((tiktok: Record<string, unknown>) => {
-          if (tiktok && typeof tiktok === 'object' && 'id' in tiktok && 'naam' in tiktok && 'rate' in tiktok) {
-            return {
-              id: Number(tiktok.id),
-              names: String(tiktok.naam),
-              playerid: String(tiktok.videoslink), // or tiktok.whatsapp if you want
-              price: String(tiktok.rate),
-              source: 'Tiktok',
-            };
-          }
-          throw new Error('Invalid tiktok data structure');
-        });
+        const pubgOrders: Order[] = pubgRes.ok
+          ? (await pubgRes.json()).map((e: Record<string, unknown>) => ({
+              id: Number(e.id),
+              names: String(e.naam),
+              playerid: String(e.gamesid),
+              price: String(e.rate),
+              whatsapp: String(e.message),
+              source: "Pubg",
+            }))
+          : [];
 
-        // Combine and sort by id descending
-        const combinedUsers = [...projectUsers, ...pubgUsers, ...tiktoktUsers].sort((a, b) => b.id - a.id);
-        setUsers(combinedUsers);
+        const tiktokOrders: Order[] = tiktokRes.ok
+          ? (await tiktokRes.json()).map((t: Record<string, unknown>) => ({
+              id: Number(t.id),
+              names: String(t.naam),
+              playerid: String(t.videoslink),
+              price: String(t.rate),
+              whatsapp: String(t.whatsapp),
+              source: "Tiktok",
+            }))
+          : [];
+
+        const combined = [...projectOrders, ...pubgOrders, ...tiktokOrders].sort(
+          (a, b) => b.id - a.id
+        );
+        setOrders(combined);
       } catch (err: unknown) {
-        console.error("Error fetching data:", err);
-        setError(err instanceof Error ? err.message : 'Failed to load users');
+        setError(err instanceof Error ? err.message : "Failed to load orders");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUsers();
+    fetchOrders();
   }, []);
 
   if (loading) {
     return (
       <div className="container mx-auto p-4">
-        <div className="text-center py-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 dark:border-white mx-auto"></div>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">Loading users...</p>
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-theme-accent mx-auto" />
+          <p className="mt-2 text-gray-300">Loading orders...</p>
         </div>
       </div>
     );
@@ -127,47 +90,47 @@ export default function Get() {
   if (error) {
     return (
       <div className="container mx-auto p-4">
-        <div className="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 px-4 py-3 rounded relative" role="alert">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline"> {error}</span>
+        <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl">
+          {error}
         </div>
       </div>
     );
   }
 
-  
-
-  const truncateChars = (text: string, maxChars: number) => {
-    if (text.length <= maxChars) return text;
-    return text.slice(0, maxChars) + '…';
-  };
-
   return (
     <div className="container mx-auto p-4">
-      <div className="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg" style={{ maxHeight: '50vh' }}>
+      <h1 className="text-2xl font-bold text-white mb-4">Orders</h1>
+      <div className="bg-theme-card border border-theme-bg rounded-2xl overflow-x-auto">
         <table className="min-w-full table-auto">
-          <thead className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 sticky top-0">
+          <thead className="bg-theme-bg text-gray-200">
             <tr>
               <th className="px-4 py-2 text-left">SN</th>
               <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Player ID</th>
+              <th className="px-4 py-2 text-left">Player ID / Link</th>
+              <th className="px-4 py-2 text-left">WhatsApp</th>
               <th className="px-4 py-2 text-left">Price</th>
               <th className="px-4 py-2 text-left">Source</th>
             </tr>
           </thead>
-          <tbody className="overflow-y-auto text-gray-900 dark:text-white">
-            {users.length === 0 ? (
+          <tbody className="text-white">
+            {orders.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-2 text-center">No users found</td>
+                <td colSpan={6} className="px-4 py-6 text-center text-gray-400">
+                  No orders yet
+                </td>
               </tr>
             ) : (
-              users.map((user) => (
-                <tr key={user.id} className="border-t dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-4 py-2">{user.id}</td>
-                  <td className="px-4 py-2">{user.names}</td>
-                  <td className="px-4 py-2">{truncateChars(user.playerid, 10)}</td>
-                  <td className="px-4 py-2">{user.price}</td>
-                  <td className="px-4 py-2">{user.source || 'Project'}</td>
+              orders.map((order) => (
+                <tr
+                  key={`${order.source}-${order.id}`}
+                  className="border-t border-theme-bg hover:bg-theme-bg/50"
+                >
+                  <td className="px-4 py-2">{order.id}</td>
+                  <td className="px-4 py-2">{order.names}</td>
+                  <td className="px-4 py-2">{order.playerid}</td>
+                  <td className="px-4 py-2">{order.whatsapp}</td>
+                  <td className="px-4 py-2">{order.price}</td>
+                  <td className="px-4 py-2">{order.source ?? "—"}</td>
                 </tr>
               ))
             )}

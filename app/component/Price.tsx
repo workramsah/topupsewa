@@ -1,23 +1,19 @@
-import Image from 'next/image';
-
 interface PriceProps {
   price: string;
   diamond: string;
+  selected?: boolean;
 }
 
 export default function Price(props: PriceProps) {
-    return(
-        <>
-        <div>
-            <button 
-                className="w-full bg-white dark:bg-gray-800 p-3 text-center flex justify-center gap-1 rounded-lg hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-[#336666] focus:ring-offset-2 dark:focus:ring-[#4a9db3] dark:focus:ring-offset-gray-800 dark:hover:bg-gray-700 transition duration-200"
-                type="button"
-            >
-                <h2 className="text-[11px] text-[#367588] dark:text-[#4a9db3] left-1/2">Rs {props.price}</h2>
-                <h1 className="text-gray-900 dark:text-gray-100">{props.diamond}</h1>
-                <Image className="h-4" src="/diamond.svg" alt="Diamond" width={16} height={16} />
-            </button>
-        </div>
-        </>
-    )
+  const isSelected = props.selected === true;
+  return (
+    <div className={`w-full p-3 text-center flex flex-col justify-center gap-0.5 rounded-xl transition-all duration-200 border-2 ${
+      isSelected
+        ? "border-theme-accent bg-theme-accent/15 shadow-md shadow-theme-accent/30"
+        : "border-theme-bg bg-theme-card group-hover:border-theme-accent group-hover:bg-theme-accent/10 group-hover:shadow-md group-hover:shadow-theme-accent/20"
+    }`}>
+      <span className="text-theme-accent font-bold text-sm">Rs {props.price}</span>
+      <span className="text-white text-xs">{props.diamond}</span>
+    </div>
+  );
 }

@@ -1,9 +1,8 @@
 "use client"
 import { useState } from 'react';
-import Header from "@/app/component/Header";
-import Price from '@/app/component/Price';
-
-import Footer from '@/app/component/Footer';
+import Header from "@/components/Header";
+import Price from "@/app/component/Price";
+import Footer from "@/components/Footer";
 
 export default function Tiktok(){
 
@@ -63,47 +62,35 @@ export default function Tiktok(){
 const [rate,setRate]= useState("Select Price");
   const [selectedOption, setSelectedOption] = useState("Views");
     return(
-        <>
-        <div className="min-h-screen bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-theme-bg text-white">
             <Header/>
-            <main className="mx-4 mt-11">
-               
-                <div className="mt-10 ml-4">
-            <h1 className="font-extrabold text-2xl text-gray-900 dark:text-white">PUBG  Topup</h1>
-            <h2 className="text-lg text-gray-700 dark:text-gray-300">Rs 135 - Rs 12950+</h2>
-          <p className="mt-4 text-gray-600 dark:text-gray-400 leading-relaxed">
-            Experience the ultimate PUBG gaming with our premium UC top-up service. Get instant delivery of PUBG UC at competitive prices. Our secure payment system ensures safe transactions for all your PUBG recharge needs. Whether you&apos;re looking for PUBG UC purchase for character skins, weapons, or battle passes, we&apos;ve got you covered with the best UC top-up deals in Nepal.
+            <main className="mx-4 mt-6 pb-8">
+                <div className="mt-6">
+            <h1 className="font-extrabold text-2xl text-white">TikTok Services</h1>
+            <h2 className="text-lg text-theme-accent font-semibold">Views &amp; Likes</h2>
+          <p className="mt-4 text-gray-300 leading-relaxed">
+            Get more TikTok views and likes. Instant delivery and secure payment.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm">Instant Delivery</span>
-            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-full text-sm">Secure Payment</span>
-            <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm">24/7 Support</span>
+            <span className="px-3 py-1 bg-theme-accentGreen/80 text-white rounded-lg text-xs font-medium">Instant</span>
+            <span className="px-3 py-1 bg-theme-accentBlue/80 text-white rounded-lg text-xs font-medium">Secure</span>
           </div>
-          
-          <div className="text-center my-2">
-            <h3 className="text-lg font-semibold mb-4">Select Package Type:</h3>
+          <div className="mt-6">
+            <label className="block text-white font-semibold text-sm mb-2">Select Package Type</label>
             <select 
               value={selectedOption} 
               onChange={(e) => setSelectedOption(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-xl bg-theme-card border border-theme-bg text-white focus:border-theme-accent outline-none"
             >
-              <option value="" disabled>Select an option</option>
-              <option value="Views" >Views</option>
+              <option value="Views">Views</option>
               <option value="Likes">Likes</option>
-              
-              <option disabled value="Mango">Flowers</option>
-              <option disabled value="Orange">premium</option>
-              
             </select>
-            {selectedOption && <p className="mt-2 text-sm text-gray-600">Selected: {selectedOption}</p>}
           </div>
           </div>
 
-          {/* UC Packages - Only show when Banana is selected */}
           {selectedOption === 'Views' && (
             <>
-              {/* First Views Package Section */}
-              <div className="bg-[#336666] dark:bg-[#1a3333] rounded-xl w-full mt-8 p-4">
+              <div className="bg-theme-card rounded-2xl w-full mt-6 p-4 border border-theme-bg">
                 <div className="grid grid-cols-2 gap-4 h-full">
                  
                   {/* Left Side */}
@@ -174,10 +161,9 @@ const [rate,setRate]= useState("Select Price");
             </>
           )}
 
-          {selectedOption === 'Likes'&& (
+          {selectedOption === 'Likes' && (
             <>
-            {/* First likes Package Section */}
-            <div className="bg-[#336666] dark:bg-[#1a3333] rounded-xl w-full mt-8 p-4">
+            <div className="bg-theme-card rounded-2xl w-full mt-6 p-4 border border-theme-bg">
                 <div className="grid grid-cols-2 gap-4 h-full">
                  
                   {/* Left Side */}
@@ -247,55 +233,52 @@ const [rate,setRate]= useState("Select Price");
               </div>
               </>
           )}
-          <h1 className="text-center text-gray-900 dark:text-white font-extrabold text-lg mb-2  ">Amount: {rate}</h1>
-          <div className="bg-[#336666] dark:bg-[#1a3333] mt-10 pb-3 rounded-lg shadow-lg">
-            <h1 className="text-white font-extrabold text-lg mb-2">Video Link</h1>
+          <h2 className="text-center text-white font-extrabold text-lg mb-4 mt-6">Amount: <span className="text-theme-accent">{rate}</span></h2>
+          <div className="bg-theme-card mt-6 pb-4 pt-4 px-4 rounded-2xl border border-theme-bg">
+            <label className="block text-white font-semibold text-sm mb-2">Video Link</label>
             <input 
-             value={videoslink}
-             onChange={(e)=>setVideoslink(e.target.value)}
-               type="text" 
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
-              placeholder="Tiktok video link"
-            />
-            
-            <h1 className="text-white font-extrabold text-lg mt-4 mb-2">Name</h1>
-            <input
-            value={naam}
-            onChange={(e)=>setNaam(e.target.value)}
+              value={videoslink}
+              onChange={(e)=>setVideoslink(e.target.value)}
               type="text" 
-             
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none" 
+              placeholder="TikTok video link"
+            />
+            <label className="block text-white font-semibold text-sm mt-4 mb-2">Name</label>
+            <input
+              value={naam}
+              onChange={(e)=>setNaam(e.target.value)}
+              type="text" 
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none" 
               placeholder="Enter your name"
             />
-            
-            <h1 className="text-white font-extrabold text-lg mt-4 mb-2">WhatsApp Number</h1>
+            <label className="block text-white font-semibold text-sm mt-4 mb-2">WhatsApp Number</label>
             <input
-           value={whatsapp}
+              value={whatsapp}
               type="number"
-             onChange={(e)=>setWhatsapp(e.target.value)}
-              
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
+              onChange={(e)=>setWhatsapp(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none" 
               placeholder="Enter WhatsApp number"
             />
           </div>
-          <button className="w-30 mt-6 font-extrabold text-white bg-[#336666] dark:bg-[#4a9db3] px-6 py-3 rounded-xl shadow-lg hover:bg-[#255b42] dark:hover:bg-[#367588] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed  text-center "
-          onClick={handleSubmit}
-          disabled={isLoading}
-          >{isLoading ? "Submitting..." : "Buy Now"}</button>
+          <button
+            type="button"
+            className="w-full mt-6 font-extrabold text-white bg-theme-accent px-6 py-3.5 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? "Submitting..." : "Buy Now"}
+          </button>
           {submitStatus && (
-            <div className={`mt-4 p-3 rounded-lg text-center ${
+            <div className={`mt-4 p-4 rounded-xl text-center ${
               submitStatus.includes("successfully") 
-                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200" 
-                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200"
+                ? "bg-theme-accentGreen/20 text-theme-accentGreen border border-theme-accentGreen/50" 
+                : "bg-red-500/20 text-red-200 border border-red-500/50"
             }`}>
               {submitStatus}
             </div>
           )}
-         
             </main>
             <Footer/>
         </div>
-       
-        </>
     )
 }

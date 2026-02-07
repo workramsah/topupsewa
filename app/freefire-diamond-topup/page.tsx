@@ -1,10 +1,9 @@
 "use client"
-import Price from "../component/Price";
-import Header from "../component/Header";
-import Footer from "../component/Footer";
+import Price from "@/app/component/Price";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from "next/link";
 
@@ -114,60 +113,29 @@ const addProduct = async () => {
 };
 
   return (
-    <>
-      <Head>
-        <title>Free Fire Top Up - Buy Diamonds at Best Price | Game Shop</title>
-        <meta name="description" content="Buy Free Fire diamonds at the best prices. Instant top-up service for Free Fire Indonesia. Get 50 to 10400 diamonds with secure payment methods." />
-        <meta name="keywords" content="free fire top up, free fire diamonds, free fire indonesia, free fire diamond purchase, free fire recharge, free fire diamond price" />
-        <meta property="og:title" content="Free Fire Top Up - Buy Diamonds at Best Price" />
-        <meta property="og:description" content="Get Free Fire diamonds instantly at competitive prices. Secure payment methods and fast delivery." />
-        <meta property="og:image" content="/freefire.jpg" />
-        <meta property="og:url" content="https://topupsewa.games/freefire-diamond-topup" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "Free Fire Diamonds",
-            "description": "Purchase Free Fire diamonds for your gaming account",
-            "brand": {
-              "@type": "Brand",
-              "name": "Free Fire"
-            },
-            "offers": {
-              "@type": "AggregateOffer",
-              "priceCurrency": "INR",
-              "lowPrice": "65",
-              "highPrice": "8800",
-              "offerCount": "16"
-            }
-          })}
-        </script>
-      </Head>
-      <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-theme-bg text-white">
        <Header/>
-       
 
-        <main className="mx-4 mt-11">
-          <div className="rounded-lg">
-            <Image className="w-52 rounded-lg" src="/topupfree.jpg" alt="Free Fire topup" width={208} height={208} loading="lazy" />
+        <main className="mx-4 mt-6 pb-8">
+          <div className="rounded-2xl overflow-hidden">
+            <Image className="w-full max-w-xs rounded-2xl" src="/topupfree.jpg" alt="Free Fire topup" width={208} height={208} loading="lazy" />
           </div>
 
-          <div className="mt-10 ml-4">
-            <h1 className="font-extrabold text-2xl text-gray-900 dark:text-white">Free Fire Topup</h1>
-            <h2 className="text-lg text-gray-700 dark:text-gray-300">Rs 115 - Rs 7000+</h2>
-          <p className="mt-4 text-gray-600 dark:text-gray-400 leading-relaxed">
-            Experience the ultimate Free Fire gaming with our premium diamond top-up service. Get instant delivery of Free Fire diamonds at competitive prices. Our secure payment system ensures safe transactions for all your Free Fire recharge needs. Whether you&apos;re looking for Free Fire diamond purchase for character skins, weapons, or battle passes, we&apos;ve got you covered with the best Free Fire top-up deals in Ne.
+          <div className="mt-6">
+            <h1 className="font-extrabold text-2xl text-white">Free Fire Topup</h1>
+            <h2 className="text-lg text-theme-accent font-semibold">Rs 115 - Rs 7000+</h2>
+          <p className="mt-4 text-gray-300 leading-relaxed">
+            Experience the ultimate Free Fire gaming with our premium diamond top-up service. Get instant delivery of Free Fire diamonds at competitive prices. Our secure payment system ensures safe transactions for all your Free Fire recharge needs.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm">Instant Delivery</span>
-            <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-full text-sm">Secure Payment</span>
-            <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm">24/7 Support</span>
+            <span className="px-3 py-1 bg-theme-accentGreen/80 text-white rounded-lg text-xs font-medium">Instant Delivery</span>
+            <span className="px-3 py-1 bg-theme-accentBlue/80 text-white rounded-lg text-xs font-medium">Secure Payment</span>
+            <span className="px-3 py-1 bg-theme-accent/80 text-white rounded-lg text-xs font-medium">24/7 Support</span>
           </div>
           </div>
 
           {/* Left and Right Component Placement */}
-          <div className="bg-[#336666] dark:bg-[#1a3333] rounded-xl w-full  mt-8 p-4">
+          <div className="bg-theme-card rounded-2xl w-full mt-6 p-4 border border-theme-bg">
             <div className="grid grid-cols-2 gap-4 h-full">
               {/* Left Side */}
               <div className="col-span-1 flex flex-col gap-4  ">
@@ -236,38 +204,38 @@ const addProduct = async () => {
               </div>
             </div>
           </div>
-          <h1 className="text-center text-gray-900 dark:text-white font-extrabold text-lg mb-2  ">Price: {price}</h1>
-          <div className="bg-[#336666] dark:bg-[#1a3333] mt-10 pb-3 rounded-lg shadow-lg">
-            <h1 className="text-white font-extrabold text-lg mb-2">Player ID (UID)</h1>
+          <h2 className="text-center text-white font-extrabold text-lg mb-4">Price: <span className="text-theme-accent">{price}</span></h2>
+          <div className="bg-theme-card mt-6 pb-4 pt-4 px-4 rounded-2xl border border-theme-bg">
+            <label className="block text-white font-semibold text-sm mb-2">Player ID (UID)</label>
             <input 
               type="number" 
               value={playerid} 
               onChange={(e)=>setPlayerid(e.target.value)} 
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none transition" 
               placeholder="Enter player uid"
             />
             
-            <h1 className="text-white font-extrabold text-lg mt-4 mb-2">Name</h1>
+            <label className="block text-white font-semibold text-sm mt-4 mb-2">Name</label>
             <input 
               type="text" 
               value={names} 
               onChange={(e)=>setName(e.target.value)} 
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none transition" 
               placeholder="Enter your name"
             />
             
-            <h1 className="text-white font-extrabold text-lg mt-4 mb-2">WhatsApp Number</h1>
+            <label className="block text-white font-semibold text-sm mt-4 mb-2">WhatsApp Number</label>
             <input 
               type="number" 
               value={whatsapp} 
               onChange={(e)=>setWhatsapp(e.target.value)} 
-              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#336666] dark:focus:ring-[#4a9db3] transition duration-300" 
+              className="w-full px-4 py-3 rounded-xl bg-theme-bg text-white border border-theme-card placeholder-gray-500 focus:border-theme-accent outline-none transition" 
               placeholder="Enter WhatsApp number"
             />
           </div>
 
           {error && (
-            <div className="mt-4 p-4 bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 rounded-lg">
+            <div className="mt-4 p-4 bg-red-500/20 border border-red-500/50 text-red-200 rounded-xl">
               {error}
             </div>
           )}
@@ -275,15 +243,15 @@ const addProduct = async () => {
           <button 
             onClick={addProduct} 
             disabled={isLoading}
-            className={`w-full mt-6 font-extrabold text-white bg-[#336666] dark:bg-[#4a9db3] px-6 py-3 rounded-xl shadow-lg hover:bg-[#255b42] dark:hover:bg-[#367588] transition duration-300 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-full mt-6 font-extrabold text-white bg-theme-accent px-6 py-3.5 rounded-xl hover:opacity-90 transition-opacity ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isLoading ? 'Processing...' : 'Buy Now'}
           </button>
 
-          <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-4">How to purchase Free Fire BD Diamonds in Free Fire Top Up:</h1>
-            <div className="space-y-2 text-gray-700 dark:text-gray-300">
-              <p>1. First, select the Diamond Pack you want to buy<Link href="https://wa.link/n5cbbq" className="text-blue-400">OR Contact on whatsapp</Link></p>
+          <div className="mt-8 p-6 bg-theme-card rounded-2xl border border-theme-bg">
+            <h3 className="text-lg font-bold text-white mb-4">How to purchase Free Fire Diamonds:</h3>
+            <div className="space-y-2 text-gray-300 text-sm">
+              <p>1. First, select the Diamond Pack you want to buy <Link href="https://wa.link/n5cbbq" className="text-theme-accentGreen">or contact on WhatsApp</Link></p>
               <p>2. Next, enter your Free Fire Player UID , Name and WhatsApp Number.</p>
               <p>3. After that, check out and choose your payment method (eSEWA, kHALTI).</p>
               <p>4. After payment is made, the Diamond you purchased will be credited to your account within 5 minutes</p>
@@ -292,6 +260,5 @@ const addProduct = async () => {
         </main>
         <Footer/>
       </div>
-    </>
   );
 }
